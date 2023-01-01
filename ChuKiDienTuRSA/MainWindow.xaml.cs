@@ -20,6 +20,13 @@ using System.Data;
 using System.Drawing;
 using System.Collections;
 
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Packaging;
+using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
+using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Windows.Markup;
+
 
 namespace ChuKiDienTuRSA
 {
@@ -276,7 +283,7 @@ namespace ChuKiDienTuRSA
                 MessageBox.Show(ex.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void readFileContent(string path)
+        private string readFileContent(string path)
         {
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
             object file = path;
@@ -293,11 +300,9 @@ namespace ChuKiDienTuRSA
             doc.ActiveWindow.Selection.Copy();
 
             IDataObject data = Clipboard.GetDataObject();
-
-            string getdata = data.GetData(DataFormats.Text).ToString();
-
             doc.Close(ref nullobj, ref nullobj, ref nullobj);
             wordApp.Quit(ref nullobj, ref nullobj, ref nullobj);
+            return data.GetData(DataFormats.UnicodeText).ToString();
         }
 
         //Chọn file để ký
@@ -308,12 +313,19 @@ namespace ChuKiDienTuRSA
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    FileStream fsFileDauVao = new FileStream(openFileDialog.FileName, FileMode.Open);
                     fileNameCanKi = openFileDialog.FileName;
-                    StreamReader fr = new StreamReader(fsFileDauVao);
-                    TextNoiDungVBCanKi.Text = fr.ReadToEnd();
-                    fr.Close();
+                    if(fileNameCanKi.Contains(".docx"))
+                        TextNoiDungVBCanKi.Text = readFileContent(fileNameCanKi);
+                    else
+                    {
+                        FileStream fsFileDauVao = new FileStream(openFileDialog.FileName, FileMode.Open);
+                        StreamReader fr = new StreamReader(fsFileDauVao);
+                        TextNoiDungVBCanKi.Text = fr.ReadToEnd();
+                        fr.Close();
+                    }
                     check = 0;
+                    btnChuyen.IsEnabled = false;
+                    TextNoiDungVBCanKi.IsReadOnly = true;
                 }
             }
             catch (Exception ex)
@@ -505,11 +517,16 @@ namespace ChuKiDienTuRSA
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    FileStream fsFileKiemTra = new FileStream(openFileDialog.FileName, FileMode.Open);
                     fileNameKiemTra = openFileDialog.FileName;
-                    StreamReader fr = new StreamReader(fsFileKiemTra);
-                    TextNoiDungVBCanKiemTra.Text = fr.ReadToEnd();
-                    fr.Close();
+                    if (fileNameKiemTra.Contains(".docx"))
+                        TextNoiDungVBCanKiemTra.Text = readFileContent(fileNameKiemTra);
+                    else
+                    {
+                        FileStream fsFileKiemTra = new FileStream(openFileDialog.FileName, FileMode.Open);
+                        StreamReader fr = new StreamReader(fsFileKiemTra);
+                        TextNoiDungVBCanKiemTra.Text = fr.ReadToEnd();
+                        fr.Close();
+                    }
                 }
             }
             catch (Exception ex)

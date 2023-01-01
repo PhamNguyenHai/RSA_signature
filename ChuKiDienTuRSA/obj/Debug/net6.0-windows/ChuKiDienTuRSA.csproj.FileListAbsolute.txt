@@ -21,3 +21,5 @@ D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\obj\Debug\net6.0-windows\Chu
 D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\obj\Debug\net6.0-windows\ref\ChuKiDienTuRSA.dll
 D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\obj\Debug\net6.0-windows\Interop.Microsoft.Office.Interop.Word.dll
 D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\obj\Debug\net6.0-windows\ChuKiDienTuRSA.csproj.ResolveComReference.cache
+D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\bin\Debug\net6.0-windows\DocumentFormat.OpenXml.dll
+D:\Save Visual Studio\ChuKiDienTuRSA\ChuKiDienTuRSA\obj\Debug\net6.0-windows\ChuKiDienTuRSA.csproj.CopyComplete

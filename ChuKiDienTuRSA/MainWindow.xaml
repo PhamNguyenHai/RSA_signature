@@ -47,7 +47,7 @@
                         <TextBlock HorizontalAlignment="Left" Margin="50,80,0,0" TextWrapping="Wrap" Text="Nội dung VB" VerticalAlignment="Top" FontSize="15" Width="130"/>
                         <TextBlock HorizontalAlignment="Left" Margin="50,270,0,0" TextWrapping="Wrap" Text="Hàm băm" VerticalAlignment="Top" FontSize="15"/>
                         <TextBlock HorizontalAlignment="Left" Margin="50,330,0,0" TextWrapping="Wrap" Text="Chữ ký" VerticalAlignment="Top" FontSize="15"/>
-                        <TextBox Name="TextNoiDungVBCanKi" HorizontalAlignment="Left" Margin="180,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="180" Grid.ColumnSpan="3" TextChanged="TextNoiDungVBCanKi_changed"/>
+                        <TextBox Name="TextNoiDungVBCanKi" FontSize="17" HorizontalAlignment="Left" Margin="180,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="180" Grid.ColumnSpan="3" TextChanged="TextNoiDungVBCanKi_changed"/>
                         <TextBox Name="TextHashFunc" HorizontalAlignment="Left" Margin="180,270,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="50" FontSize="14" Grid.ColumnSpan="3"/>
                         <TextBox Name="TextChuKiVaoFile" HorizontalAlignment="Left" Margin="180,330,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="60" FontSize="14" Grid.ColumnSpan="3"/>
                         <Button Name="btnChonFileKy"  Content="Tải file" HorizontalAlignment="Left" Margin="406,84,0,0" VerticalAlignment="Top" Width="70" Height="30" Background="Gray"  Foreground="White" Grid.Column="2" Click="btnChonFileKy_Click"/>
@@ -71,7 +71,7 @@
                         <TextBlock HorizontalAlignment="Left" Margin="30,345,0,0" TextWrapping="Wrap" Text="Nhập xác nhận" VerticalAlignment="Top" FontSize="15" Grid.ColumnSpan="3"/>
                         <TextBlock HorizontalAlignment="Left" Margin="108,345,0,0" TextWrapping="Wrap" Text="E" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Grid.Column="2"/>
                         <TextBlock HorizontalAlignment="Left" Margin="398,345,0,0" TextWrapping="Wrap" Text="N" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Grid.Column="2"/>
-                        <TextBox Name="TextNoiDungVBCanKiemTra" HorizontalAlignment="Left" Margin="78,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="180" Grid.Column="2"/>
+                        <TextBox Name="TextNoiDungVBCanKiemTra" HorizontalAlignment="Left" Margin="78,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="180" FontSize="17" Grid.Column="2"/>
                         <TextBox Name="TextChuKiXacNhan" HorizontalAlignment="Left" Margin="78,270,0,0" FontSize="14" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="60" Grid.Column="2"/>
                         <TextBox Name="EXacThuc" HorizontalAlignment="Left" Margin="148,340,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Height="40" Grid.Column="2"/>
                         <TextBox Name="NXacThuc" HorizontalAlignment="Left" Margin="438,340,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Height="40" Grid.Column="2"/>
