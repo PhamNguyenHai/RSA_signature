@@ -20,14 +20,6 @@ using System.Data;
 using System.Drawing;
 using System.Collections;
 
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Packaging;
-using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
-using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using System.Windows.Markup;
-
-
 namespace ChuKiDienTuRSA
 {
     /// <summary>
