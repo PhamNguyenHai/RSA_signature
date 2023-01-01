@@ -44,7 +44,7 @@ namespace ChuKiDienTuRSA
             App.Current.Shutdown();
         }
         // "Hàm kiểm tra hai số nguyên tố cùng nhau"
-        private bool nguyenToCungNhau(int ai, int bi)
+        public bool nguyenToCungNhau(int ai, int bi)
         {
             bool ktx_;
             // giải thuật Euclid;
@@ -88,7 +88,7 @@ namespace ChuKiDienTuRSA
             return kiemtra;
         }
 
-        // "Hàm lấy mod" - Thuật toán bình phương và nhân
+        // Thuật toán bình phương và nhân - lấy mod
         public int RSA_mod(int mx, int ex, int nx)
         {
 
@@ -121,7 +121,7 @@ namespace ChuKiDienTuRSA
             return rd.Next(11, 101);// tốc độ chậm nên chọn số bé
         }
 
-        int RSA_soP, RSA_soQ, RSA_soN, RSA_soE, RSA_soD, RSA_soPhi_n;
+        int RSA_soP, RSA_soQ, RSA_soN, RSA_soE, RSA_soD, RSA_soPhi_n;   // E = B | D = A
         int F_rsa_d_dau = 0, check = 0; //0 : Tai file | 1. Nhap tay
         string fileNameCanKi = "";
         string fileNameKiemTra = "";
@@ -156,7 +156,7 @@ namespace ChuKiDienTuRSA
         //Chuoi -> Unicode -> Binh phuong & nhan -> Chuoi ma hoa 
         public string F_MaHoa_RSA(string ChuoiVao1)
         {
-            byte[] F_mh_temp1 = Encoding.Unicode.GetBytes(ChuoiVao1);
+            byte[] F_mh_temp1 = Encoding.Unicode.GetBytes(ChuoiVao1);       
             string F_base64 = Convert.ToBase64String(F_mh_temp1);
 
             // Chuyen xau thanh ma Unicode
@@ -170,14 +170,14 @@ namespace ChuKiDienTuRSA
             int[] F_mh_temp3 = new int[F_mh_temp2.Length];
             for (int i = 0; i < F_mh_temp2.Length; i++)
             {
-                F_mh_temp3[i] = RSA_mod(F_mh_temp2[i], RSA_soE, RSA_soN); // mã hóa
+                F_mh_temp3[i] = RSA_mod(F_mh_temp2[i], RSA_soD, RSA_soN); // mã hóa
             }
 
             //Chuyển sang kiểu kí tự trong bảng mã Unicode
             string Fmh_str = "";
             for (int i = 0; i < F_mh_temp3.Length; i++)
             {
-                Fmh_str = Fmh_str + (char)F_mh_temp3[i];
+                Fmh_str += (char)F_mh_temp3[i];
             }
 
             byte[] Fmh_data = Encoding.Unicode.GetBytes(Fmh_str);
@@ -201,7 +201,7 @@ namespace ChuKiDienTuRSA
             int[] Fgm_temp3 = new int[Fgm_temp2.Length];
             for (int i = 0; i < Fgm_temp3.Length; i++)
             {
-                Fgm_temp3[i] = RSA_mod(Fgm_temp2[i], RSA_soD, RSA_soN);// giải mã
+                Fgm_temp3[i] = RSA_mod(Fgm_temp2[i], RSA_soE, RSA_soN);// giải mã
             }
 
             string Fgm_str2 = "";
@@ -224,6 +224,29 @@ namespace ChuKiDienTuRSA
             Dvalue.IsReadOnly = true;
             NPubvalue.IsReadOnly = true;
             NPrvalue.IsReadOnly = true;
+        }
+
+        // Đọc file word
+        private string readFileContent(string path)
+        {
+            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+            object file = path;
+            object nullobj = System.Reflection.Missing.Value;
+
+            Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Open(
+                ref file, ref nullobj, ref nullobj,
+                ref nullobj, ref nullobj, ref nullobj,
+                ref nullobj, ref nullobj, ref nullobj,
+                ref nullobj, ref nullobj, ref nullobj);
+
+
+            doc.ActiveWindow.Selection.WholeStory();
+            doc.ActiveWindow.Selection.Copy();
+
+            IDataObject data = Clipboard.GetDataObject();
+            doc.Close(ref nullobj, ref nullobj, ref nullobj);
+            wordApp.Quit(ref nullobj, ref nullobj, ref nullobj);
+            return data.GetData(DataFormats.UnicodeText).ToString();
         }
 
         //Tự động tạo khóa
@@ -274,27 +297,6 @@ namespace ChuKiDienTuRSA
             {
                 MessageBox.Show(ex.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-        private string readFileContent(string path)
-        {
-            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
-            object file = path;
-            object nullobj = System.Reflection.Missing.Value;
-
-            Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Open(
-                ref file, ref nullobj, ref nullobj,
-                ref nullobj, ref nullobj, ref nullobj,
-                ref nullobj, ref nullobj, ref nullobj,
-                ref nullobj, ref nullobj, ref nullobj);
-
-
-            doc.ActiveWindow.Selection.WholeStory();
-            doc.ActiveWindow.Selection.Copy();
-
-            IDataObject data = Clipboard.GetDataObject();
-            doc.Close(ref nullobj, ref nullobj, ref nullobj);
-            wordApp.Quit(ref nullobj, ref nullobj, ref nullobj);
-            return data.GetData(DataFormats.UnicodeText).ToString();
         }
 
         //Chọn file để ký
@@ -384,15 +386,16 @@ namespace ChuKiDienTuRSA
                             FileVBKy_temp1 = md5.ComputeHash(new UTF8Encoding().GetBytes(TextNoiDungVBCanKi.Text));
                         }
                         
-                        StringBuilder hash = new StringBuilder();
+                        //StringBuilder hash = new StringBuilder();
+                        string hash = string.Empty;
                         for (int i = 0; i < FileVBKy_temp1.Length; i++)
                         {
-                            hash.Append(FileVBKy_temp1[i].ToString("x2"));
+                            //hash.Append(FileVBKy_temp1[i].ToString("x2"));
+                            hash += FileVBKy_temp1[i].ToString("x2");
                         }
                         TextHashFunc.Text = hash.ToString();
                         string FileVBKy = Convert.ToBase64String(FileVBKy_temp1);
-                        string VBKemChuKy = F_MaHoa_RSA(FileVBKy);
-                        TextChuKiVaoFile.Text = VBKemChuKy;
+                        TextChuKiVaoFile.Text = F_MaHoa_RSA(FileVBKy);
 
                         F_rsa_d_dau = 2;
                         MessageBox.Show("Thực hiện ký thành công !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
