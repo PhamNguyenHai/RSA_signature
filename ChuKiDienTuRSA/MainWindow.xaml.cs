@@ -114,6 +114,26 @@ namespace ChuKiDienTuRSA
             return kq;
         }
 
+        //Thuật toán Euclide mở rộng tìm pt nghịch đảo
+        public int EuclideMoRong(int a, int n) // a^-1 mod n
+        {
+            int r, q, y=0, y0 = 0, y1 = 1, tmp = n;
+            while (a > 0)
+            {
+                r = n % a;
+                q = n / a;
+                if (r == 0) break;
+                y = y0 - q * y1;
+                y0 = y1;
+                y1 = y;
+                n = a;
+                a = r;
+            }
+            if (a > 1)      return -1;      // GCD(a,n) # 1
+            if (y >= 0)     return y;       //a^-1 mod n = y mod n
+            else            return y + tmp; //a^-1 mod n = -y mod n = y+n mod n
+        }
+
         //Random ngau nhien
         private int RSA_ChonSoNgauNhien()
         {
@@ -144,13 +164,7 @@ namespace ChuKiDienTuRSA
             }
             while (!nguyenToCungNhau(RSA_soE, RSA_soPhi_n));
             //Tính d là nghịch đảo modulo của e
-            RSA_soD = 0;
-            int i = 2;
-            while (((1 + i * RSA_soPhi_n) % RSA_soE) != 0 || RSA_soD <= 0)
-            {
-                i++;
-                RSA_soD = (1 + i * RSA_soPhi_n) / RSA_soE;
-            }
+            RSA_soD = EuclideMoRong(RSA_soE, RSA_soPhi_n);
         }
         
         //Chuoi -> Unicode -> Binh phuong & nhan -> Chuoi ma hoa 
@@ -263,7 +277,7 @@ namespace ChuKiDienTuRSA
             Pvalue.Text = RSA_soP.ToString();
             Qvalue.Text = RSA_soQ.ToString();
             F_TaoKhoa();
-
+  
             Evalue.Text = RSA_soE.ToString();
             Dvalue.Text = RSA_soD.ToString();
             NPubvalue.Text = RSA_soN.ToString();
