@@ -142,7 +142,7 @@ namespace ChuKiDienTuRSA
         }
 
         int RSA_soP, RSA_soQ, RSA_soN, RSA_soE, RSA_soD, RSA_soPhi_n;   // E = B | D = A
-        int F_rsa_d_dau = 0, check = 0; //0 : Tai file | 1. Nhap tay
+        int F_rsa_d_dau = 0, check = 0;                                 //0 : Tai file | 1. Nhap tay
         string fileNameCanKi = "";
         string fileNameKiemTra = "";
 
@@ -203,7 +203,7 @@ namespace ChuKiDienTuRSA
         // hàm giải mã
         public string F_GiaiMa_RSA(string F_ChuoiVao2)
         {
-            byte[] Fgm_temp1 = Convert.FromBase64String(F_ChuoiVao2);
+            byte[] Fgm_temp1 = Convert.FromBase64String(F_ChuoiVao2);       //convert chuoi -> mang byte
             string Fgm_giaima = Encoding.Unicode.GetString(Fgm_temp1);
 
             int[] Fgm_temp2 = new int[Fgm_giaima.Length];
@@ -233,7 +233,6 @@ namespace ChuKiDienTuRSA
         {
             TextHashFunc.IsEnabled = false;
             TextChuKiVaoFile.IsEnabled = false;
-            TextChuKiXacNhan.IsEnabled = false;
             Evalue.IsReadOnly = true;
             Dvalue.IsReadOnly = true;
             NPubvalue.IsReadOnly = true;
@@ -457,6 +456,8 @@ namespace ChuKiDienTuRSA
                     {
                         if (int.Parse(EXacThuc.Text) != RSA_soE || int.Parse(NXacThuc.Text) != RSA_soN)
                             throw new Exception("E & N không chính xác");
+                        else if (TextChuKiXacNhan.Text != TextChuKiVaoFile.Text)
+                            throw new Exception("Chữ ký đã bị thay đổi");
                         else
                         {
                             MD5 md5 = MD5.Create();
@@ -473,7 +474,6 @@ namespace ChuKiDienTuRSA
                                 FileVBKy_temp2 = md5.ComputeHash(new UTF8Encoding().GetBytes(TextNoiDungVBCanKiemTra.Text));
                             }
                             string ChuoiVBdiKem = Convert.ToBase64String(FileVBKy_temp2);
-
                             string VBKemChuKyGM = F_GiaiMa_RSA(TextChuKiXacNhan.Text); // thực hiện giải mã chữ ký
                                                                                        //txtChuKySoGiaiMa.Text = VBKemChuKyGM;     
                             int result = 0;
@@ -536,6 +536,7 @@ namespace ChuKiDienTuRSA
                         TextNoiDungVBCanKiemTra.Text = fr.ReadToEnd();
                         fr.Close();
                     }
+                    TextNoiDungVBCanKiemTra.IsReadOnly = true;
                 }
             }
             catch (Exception ex)
