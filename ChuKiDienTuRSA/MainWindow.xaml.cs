@@ -88,11 +88,10 @@ namespace ChuKiDienTuRSA
             return kiemtra;
         }
 
-        // Thuật toán bình phương và nhân - lấy mod
+        // Thuật toán bình phương và nhân
         public int RSA_mod(int mx, int ex, int nx)
         {
 
-            //Sử dụng thuật toán "bình phương nhân"
             //Chuyển e sang hệ nhị phân
             int[] a = new int[100];
             int k = 0;
@@ -129,9 +128,9 @@ namespace ChuKiDienTuRSA
                 n = a;
                 a = r;
             }
-            if (a > 1)      return -1;      // GCD(a,n) # 1
-            if (y >= 0)     return y;       //a^-1 mod n = y mod n
-            else            return y + tmp; //a^-1 mod n = -y mod n = y+n mod n
+            if (a > 1)      return -1;          // GCD(a,n) # 1
+            if (y >= 0)     return y;           //a^-1 mod n = y mod n
+            else            return y + tmp;     //a^-1 mod n = -y mod n = y+n mod n
         }
 
         //Random ngau nhien
@@ -142,7 +141,7 @@ namespace ChuKiDienTuRSA
         }
 
         int RSA_soP, RSA_soQ, RSA_soN, RSA_soE, RSA_soD, RSA_soPhi_n;   // E = B | D = A
-        int F_rsa_d_dau = 0, check = 0;                                 //0 : Tai file | 1. Nhap tay
+        int F_rsa_d_dau = 0     /*Đánh dấu kiểm tra đã tạo khóa và ký chưa ?*/, check = 0;                                 //0 : Tai file | 1. Nhap tay
         string fileNameCanKi = "";
         string fileNameKiemTra = "";
 
@@ -172,7 +171,6 @@ namespace ChuKiDienTuRSA
         {
             byte[] F_mh_temp1 = Encoding.Unicode.GetBytes(ChuoiVao1);       
             string F_base64 = Convert.ToBase64String(F_mh_temp1);
-
             // Chuyen xau thanh ma Unicode
             int[] F_mh_temp2 = new int[F_base64.Length];
             for (int i = 0; i < F_base64.Length; i++)
@@ -297,7 +295,7 @@ namespace ChuKiDienTuRSA
                 if (RSA_soP == RSA_soQ || !RSA_kiemTraNguyenTo(RSA_soP) || !RSA_kiemTraNguyenTo(RSA_soQ))
                     throw new Exception("P vs Q không hợp lệ !");
                 F_TaoKhoa();
-
+                
                 Evalue.Text = RSA_soE.ToString();
                 Dvalue.Text = RSA_soD.ToString();
                 NPubvalue.Text = RSA_soN.ToString();
@@ -346,6 +344,7 @@ namespace ChuKiDienTuRSA
             check = 1;
         }
 
+        //Thực hiện chuyển text khi nhập VB vào từ textbox
         private void btnChuyen_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -475,7 +474,7 @@ namespace ChuKiDienTuRSA
                             }
                             string ChuoiVBdiKem = Convert.ToBase64String(FileVBKy_temp2);
                             string VBKemChuKyGM = F_GiaiMa_RSA(TextChuKiXacNhan.Text); // thực hiện giải mã chữ ký
-                                                                                       //txtChuKySoGiaiMa.Text = VBKemChuKyGM;     
+                                                                                        
                             int result = 0;
                             result = string.Compare(VBKemChuKyGM, ChuoiVBdiKem, true);
 
